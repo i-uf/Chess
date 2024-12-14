@@ -2,20 +2,15 @@ plugins {
     kotlin("jvm") version "1.9.23"
 }
 
-group = "com.i_uf"
-version = "1.0-SNAPSHOT"
-
 repositories {
     mavenCentral()
 }
-
 dependencies {
-    testImplementation(kotlin("test"))
+    implementation(kotlin("stdlib"))
 }
-
-tasks.test {
-    useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(18)
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "com.i_uf.AppKt"
+    }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) }) // 런타임 클래스 포함
 }
